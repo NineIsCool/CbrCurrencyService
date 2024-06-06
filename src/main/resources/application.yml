@@ -1,0 +1,3 @@
+cbr:
+  currencies:
+    url: "https://cbr.ru/scripts/XML_daily.asp"
