@@ -12,8 +12,10 @@ import java.math.BigDecimal;
 @Getter
 @Builder
 public class Currency {
+    int numCode;
     String charCode;
     int nominal;
     String name;
     BigDecimal rate;
+    BigDecimal unitRate;
 }

@@ -2,6 +2,7 @@ package com.example.cbrcurrencyservice.service.parser;
 
 import com.example.cbrcurrencyservice.adapter.web.error.CurrencyXmlParsingException;
 import com.example.cbrcurrencyservice.domain.Currency;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -18,7 +19,7 @@ import java.io.StringReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class CbrXmlParser implements Parser {
     @Override
     public List<Currency> parse(String ratesAsString) {
@@ -33,10 +34,12 @@ public class CbrXmlParser implements Parser {
             }
             Element element = (Element) currencyNode;
             Currency currency = Currency.builder()
+                    .numCode(Integer.parseInt(element.getElementsByTagName("NumCode").item(0).getTextContent()))
                     .charCode(element.getElementsByTagName("CharCode").item(0).getTextContent())
                     .nominal(Integer.parseInt(element.getElementsByTagName("Nominal").item(0).getTextContent()))
                     .name(element.getElementsByTagName("Name").item(0).getTextContent())
                     .rate(new BigDecimal(element.getElementsByTagName("Value").item(0).getTextContent().replace(",", ".")))
+                    .unitRate(new BigDecimal(element.getElementsByTagName("VunitRate").item(0).getTextContent().replace(",",".")))
                     .build();
             currencies.add(currency);
         }

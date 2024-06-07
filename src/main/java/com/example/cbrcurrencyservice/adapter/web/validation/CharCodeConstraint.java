@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = CharCodeValidator.class)
 public @interface CharCodeConstraint {
-    String message() default "Figi должен состоять из 12 символов ";
+    String message() default "The char code must consist of three English letters";
 
     Class<?>[] groups() default {};
 
