@@ -20,12 +20,14 @@ import java.util.ArrayList;
 public class CommonAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleCurrencyXmlParsingException(CurrencyXmlParsingException e) {
-        return new ResponseEntity<>(new ErrorResponse(e.getErrorCode(), e.getMessage()),e.getHttpStatus());
+        return new ResponseEntity<>(new ErrorResponse(e.getErrorCode(), e.getMessage()), e.getHttpStatus());
     }
+
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException e) {
-        return new ResponseEntity<>(new ErrorResponse(e.getErrorCode(), e.getMessage()),e.getHttpStatus());
+        return new ResponseEntity<>(new ErrorResponse(e.getErrorCode(), e.getMessage()), e.getHttpStatus());
     }
+
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleConstraints(ConstraintViolationException e) {
         return new ResponseEntity<>(new ErrorResponse(ErrorCode.VALIDATION_ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);

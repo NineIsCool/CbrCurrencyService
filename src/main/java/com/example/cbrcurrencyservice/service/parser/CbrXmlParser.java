@@ -1,6 +1,6 @@
 package com.example.cbrcurrencyservice.service.parser;
 
-import com.example.cbrcurrencyservice.adapter.web.error.CurrencyXmlParsingException;
+import com.example.cbrcurrencyservice.domain.CacheCurrency;
 import com.example.cbrcurrencyservice.domain.Currency;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -17,15 +17,21 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 @Component
 public class CbrXmlParser implements Parser {
     @Override
-    public List<Currency> parse(String ratesAsString) {
+    public CacheCurrency parse(String ratesAsString) {
         List<Currency> currencies = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         Document doc = buildXMLDoc(ratesAsString);
         Node root = doc.getFirstChild();
+        String d = root.getAttributes().getNamedItem("Date").getNodeValue();
+        LocalDate date = LocalDate.parse(d, formatter);
         NodeList currenciesNodeList = root.getChildNodes();
         for (int i = 0; i < currenciesNodeList.getLength(); i++) {
             Node currencyNode = currenciesNodeList.item(i);
@@ -39,11 +45,11 @@ public class CbrXmlParser implements Parser {
                     .nominal(Integer.parseInt(element.getElementsByTagName("Nominal").item(0).getTextContent()))
                     .name(element.getElementsByTagName("Name").item(0).getTextContent())
                     .rate(new BigDecimal(element.getElementsByTagName("Value").item(0).getTextContent().replace(",", ".")))
-                    .unitRate(new BigDecimal(element.getElementsByTagName("VunitRate").item(0).getTextContent().replace(",",".")))
+                    .unitRate(new BigDecimal(element.getElementsByTagName("VunitRate").item(0).getTextContent().replace(",", ".")))
                     .build();
             currencies.add(currency);
         }
-        return currencies;
+        return new CacheCurrency(date, currencies);
     }
 
     private Document buildXMLDoc(String ratesAsString) {

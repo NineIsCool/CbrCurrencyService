@@ -3,7 +3,6 @@ package com.example.cbrcurrencyservice.adapter.web;
 import com.example.cbrcurrencyservice.adapter.web.dto.CurrencyRateResponse;
 import com.example.cbrcurrencyservice.adapter.web.validation.CharCodeConstraint;
 import com.example.cbrcurrencyservice.service.CurrencyService;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,8 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class CurrencyController {
     CurrencyService currencyService;
-    @GetMapping("currency")
-    public CurrencyRateResponse getCurrencyByCharCode(@RequestParam("charCode") @CharCodeConstraint String charCode){
+
+    @GetMapping("/currency")
+    public CurrencyRateResponse getCurrencyByCharCode(@RequestParam("charCode") @CharCodeConstraint String charCode) {
         return currencyService.getCurrencyRateByCharCode(charCode);
     }
+//    @GetMapping("/info")
+//    public void getInfo(){
+//        currencyService.cacheInfo();
+//    }
 }

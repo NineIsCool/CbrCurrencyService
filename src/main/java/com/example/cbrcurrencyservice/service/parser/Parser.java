@@ -1,9 +1,7 @@
 package com.example.cbrcurrencyservice.service.parser;
 
-import com.example.cbrcurrencyservice.domain.Currency;
-
-import java.util.List;
+import com.example.cbrcurrencyservice.domain.CacheCurrency;
 
 public interface Parser {
-    List<Currency> parse(String ratesAsString);
+    CacheCurrency parse(String ratesAsString);
 }

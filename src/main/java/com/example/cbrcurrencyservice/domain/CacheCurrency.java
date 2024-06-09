@@ -2,21 +2,18 @@ package com.example.cbrcurrencyservice.domain;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
-@Builder
-public class Currency {
-    int numCode;
-    String charCode;
-    int nominal;
-    String name;
-    BigDecimal rate;
-    BigDecimal unitRate;
+public class CacheCurrency {
+    private LocalDate date;
+    private List<Currency> currenciesList;
 }

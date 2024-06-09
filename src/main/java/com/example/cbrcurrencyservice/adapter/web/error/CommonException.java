@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class CommonException extends RuntimeException{
+public class CommonException extends RuntimeException {
     ErrorCode errorCode;
     HttpStatus httpStatus;
     String message;
