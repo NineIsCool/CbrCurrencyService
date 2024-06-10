@@ -33,14 +33,11 @@ public class CurrencyService {
         return currencyMapper.CurrencyToResponse(currency, currencies.getDate());
     }
 
-    public CacheCurrency getAllCurrency() {
+    private CacheCurrency getAllCurrency() {
         String xmlCurrencies = cbrCurrencyClient.getCurrencies();
         CacheCurrency currencies = cbrXmlParser.parse(xmlCurrencies);
         cache.put(0, currencies);
         return currencies;
     }
 
-//    public void cacheInfo(){
-//        System.out.println(cacheManager.getCacheNames());
-//    }
 }

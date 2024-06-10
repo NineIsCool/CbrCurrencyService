@@ -24,8 +24,4 @@ public class CurrencyController {
     public CurrencyRateResponse getCurrencyByCharCode(@RequestParam("charCode") @CharCodeConstraint String charCode) {
         return currencyService.getCurrencyRateByCharCode(charCode);
     }
-//    @GetMapping("/info")
-//    public void getInfo(){
-//        currencyService.cacheInfo();
-//    }
 }
