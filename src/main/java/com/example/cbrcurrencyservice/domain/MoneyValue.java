@@ -2,7 +2,6 @@ package com.example.cbrcurrencyservice.domain;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
@@ -11,12 +10,7 @@ import java.math.BigDecimal;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @Getter
-@Builder
-public class Currency {
-    int numCode;
+public class MoneyValue {
     String charCode;
-    int nominal;
-    String name;
-    MoneyValue rate;
-    BigDecimal unitRate;
+    BigDecimal value;
 }

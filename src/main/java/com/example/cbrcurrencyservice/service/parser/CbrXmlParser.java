@@ -2,6 +2,7 @@ package com.example.cbrcurrencyservice.service.parser;
 
 import com.example.cbrcurrencyservice.domain.CacheCurrency;
 import com.example.cbrcurrencyservice.domain.Currency;
+import com.example.cbrcurrencyservice.domain.MoneyValue;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -44,7 +45,7 @@ public class CbrXmlParser implements Parser {
                     .charCode(element.getElementsByTagName("CharCode").item(0).getTextContent())
                     .nominal(Integer.parseInt(element.getElementsByTagName("Nominal").item(0).getTextContent()))
                     .name(element.getElementsByTagName("Name").item(0).getTextContent())
-                    .rate(new BigDecimal(element.getElementsByTagName("Value").item(0).getTextContent().replace(",", ".")))
+                    .rate(new MoneyValue("RUB", new BigDecimal(element.getElementsByTagName("Value").item(0).getTextContent().replace(",", "."))))
                     .unitRate(new BigDecimal(element.getElementsByTagName("VunitRate").item(0).getTextContent().replace(",", ".")))
                     .build();
             currencies.add(currency);

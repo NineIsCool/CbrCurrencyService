@@ -15,13 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-@RequestMapping("api/cbr")
+@RequestMapping("api/cbr/currency")
 @Validated
 public class CurrencyController {
     CurrencyService currencyService;
 
-    @GetMapping("/currency")
+    @GetMapping()
     public CurrencyRateResponse getCurrencyByCharCode(@RequestParam("charCode") @CharCodeConstraint String charCode) {
-        return currencyService.getCurrencyRateByCharCode(charCode);
+        return currencyService.getCurrencyResponseRateByCharCode(charCode);
+    }
+
+    @GetMapping("/convert")
+    public CurrencyRateResponse convertCurrency(@RequestParam("charCode") @CharCodeConstraint String charCode,
+                                                @RequestParam("convertCharCode") @CharCodeConstraint String convertCharCode) {
+        return currencyService.convert(charCode, convertCharCode);
     }
 }

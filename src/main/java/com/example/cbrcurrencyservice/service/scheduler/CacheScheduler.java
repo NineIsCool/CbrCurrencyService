@@ -15,8 +15,9 @@ import org.springframework.stereotype.Component;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CacheScheduler {
     LoadingCache<Integer, CacheCurrency> cache;
+
     @Scheduled(cron = "${cache.clear.cron}", zone = "Europe/Moscow")
-    public void cleanCache(){
+    public void cleanCache() {
         cache.cleanUp();
         log.info("cache cleared");
     }
