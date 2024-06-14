@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 cbr:
   currencies:
     url: "https://cbr.ru/scripts/XML_daily.asp"

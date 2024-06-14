@@ -1,6 +1,6 @@
 package com.example.cbrcurrencyservice.service;
 
-import com.example.cbrcurrencyservice.adapter.web.client.CbrCurrencyClient;
+import com.example.cbrcurrencyservice.adapter.client.CbrCurrencyClient;
 import com.example.cbrcurrencyservice.adapter.web.dto.CurrencyRateResponse;
 import com.example.cbrcurrencyservice.adapter.web.error.NotFoundException;
 import com.example.cbrcurrencyservice.domain.CacheCurrency;
