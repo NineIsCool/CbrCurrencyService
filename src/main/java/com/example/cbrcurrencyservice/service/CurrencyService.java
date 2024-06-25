@@ -1,7 +1,7 @@
 package com.example.cbrcurrencyservice.service;
 
 import com.example.cbrcurrencyservice.adapter.client.CbrCurrencyClient;
-import com.example.cbrcurrencyservice.adapter.web.dto.CurrencyRateResponse;
+import com.example.cbrcurrencyservice.adapter.web.dto.CurrencyRateRequest;
 import com.example.cbrcurrencyservice.adapter.web.error.NotFoundException;
 import com.example.cbrcurrencyservice.domain.CacheCurrency;
 import com.example.cbrcurrencyservice.domain.Currency;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,9 @@ public class CurrencyService {
     LoadingCache<Integer, CacheCurrency> cache;
 
     private Currency getCurrencyRateByCharCode(String charCode) {
+        if (charCode.equalsIgnoreCase("RUB")){
+            return new Currency(0,"RUB",1,"Российский Рубль",new MoneyValue("RUB",BigDecimal.ONE),BigDecimal.ONE);
+        }
         CacheCurrency currencies = (cache.get(0).getCurrenciesList() == null) ? getAllCurrency() : cache.get(0);
         return currencies.getCurrenciesList().stream()
                 .filter(cur -> cur.getCharCode().equals(charCode.toUpperCase()))
@@ -36,7 +40,7 @@ public class CurrencyService {
                 .orElseThrow(() -> new NotFoundException("Currency by char code:" + charCode));
     }
 
-    public CurrencyRateResponse getCurrencyResponseRateByCharCode(String charCode) {
+    public CurrencyRateRequest getCurrencyResponseRateByCharCode(String charCode) {
         Currency currency = getCurrencyRateByCharCode(charCode);
         return currencyMapper.CurrencyToResponse(currency, cache.get(0).getDate());
     }
@@ -49,10 +53,16 @@ public class CurrencyService {
         return currencies;
     }
 
-    public CurrencyRateResponse convert(String charCode, String charCodeConvert) {
+    public CurrencyRateRequest convert(String charCode, String charCodeConvert) {
+//
+//        if (charCode.equalsIgnoreCase("RUB")){
+//            return getCurrencyResponseRateByCharCode(charCodeConvert);
+//        }
+
+        //todo с рублем проблема из за него всё падает
         Currency currency = getCurrencyRateByCharCode(charCode);
         Currency currencyConvert = getCurrencyRateByCharCode(charCodeConvert);
-        BigDecimal convertedRate = currency.getUnitRate().divide(currencyConvert.getUnitRate(), RoundingMode.HALF_UP);
+        BigDecimal convertedRate = currency.getUnitRate().divide(currencyConvert.getUnitRate(),10, RoundingMode.HALF_UP);
         return currencyMapper.convertedCurrencyToResponse(currency, cache.get(0).getDate(), new MoneyValue(currencyConvert.getCharCode(), convertedRate));
     }
 }
